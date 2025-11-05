@@ -1,0 +1,163 @@
+server.js 
+
+const express = require("express");
+
+const cors = require("cors")
+
+const authRoute = require("./routes/authRoutes");
+
+const connectDb = require("./Config/Db");
+
+const cookieParser = require("cookie-parser");
+
+const productRoute = require("./Routes/productRoutes");
+
+const orderRoute = require("./Routes/orderRoutes");
+
+const app = express()
+
+app.use(express.json())
+
+app.use(cors({origin:'http://localhost:5173',credentials:true}))
+
+connectDb();
+
+app.use(cookieParser())
+
+app.use("/auth",authRoute)
+
+app.use("/order",orderRoute)
+
+app.use("/product",productRoute)
+
+app.listen(3000,()=>{console.log("server listening using port number");})
+
+
+productRoute.js
+
+productRoute.route("/post-product").post(isAuthenticated, isAdminOrSeller, createProduct, upload.single("image"),productCreateResponse);
+
+productController.js
+
+const createProduct = async (req, res, next) => {
+    try {
+        const { productName, productDescription, productPrice, category, specifications } = req.body
+        if (!productName || productName == "" || !productDescription || productDescription == "" || !productPrice || productPrice == "" || !category || category == "") {
+            return res.json({
+                success: false,
+                message: "major fields are required"
+            })
+        }
+        next()
+    } catch (error) {
+        if (error.message == "Cannot destructure property 'productName' of 'req.body' as it is undefined.") {
+            return res.json({
+                success: false,
+                errorFrom: "create product",
+                message: "fill the credintials"
+            })
+        }
+        return res.json({
+            success: false,
+            errorFrom: "create product",
+            error: error.message
+        })
+    }
+}
+
+const productCreateResponse = async (req, res) => {
+    console.log(req.file);
+    if (!req.file) {
+        return res.json({
+            success: false,
+            message: "image file is required"
+        })
+    }
+    const createProduct = await productModel.create({ productName, productDescription, productPrice, category, stock, specifications, user })
+    if (createProduct) {
+        return res.json({
+            success:true,
+            message:"product created"
+        })
+    }
+    else {
+        return res.json({
+            success: false,
+            message: "cannot create product"
+        })
+    }
+}
+
+Upload.js
+
+import multer from "multer";
+import path from "path"
+import fs from "fs"
+
+const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"uploads")
+    },
+    filename:(req,file,cb)=>{
+        const fileName = req.body.productName.replace(" ","_")+path.extname(file.originalname)
+        console.log(fileName);
+        cb(null,fileName)
+    }
+})
+
+const upload = multer({storage})
+
+export default upload
+
+createProduct.jsx
+
+const productbase = productBase
+    const [productName, setProductName] = useState();
+    const [productDescription, setProductDescription] = useState()
+    const [productPrice, setProductPrice] = useState()
+    const [category, ssetCategory] = useState()
+    const [colour, setColour] = useState()
+    const [ram, setRam] = useState()
+    const [stock, setStock] = useState()
+    const [storage, setStorage] = useState()
+    const [weight, setWeight] = useState()
+    const [size, setSize] = useState()
+    const [gender, setGender] = useState()
+    const [image, setImage] = useState()
+    const handleCreateProduct = async () => {
+        if (!image || image == undefined) {
+            alert("plese select the imaage file")
+        }
+        try {
+            const formData = new FormData();
+            /*formData.append("productName", productName)
+            formData.append("productDescription", productDescription)
+            formData.append("productPrice", productPrice)
+            formData.append("category", category)
+            formData.append("specifications", {
+                colour,
+                ram,
+                storage,
+                weight,
+                size
+            })
+            formData.append("stock", stock)
+            formData.append("gender", gender)
+            formData.append("iamge", image)*/
+
+            formData.append("image",image)
+            const response = await axios.post(`${productBase}post-product`,
+                {productName,productDescription,productPrice,category},
+                {
+                    withCredentials: true,
+                    headers: { "Content-Type": "multipart/form-data" }
+                })
+            console.log(response);
+            console.log(formData);
+            
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }

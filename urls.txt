@@ -1,0 +1,66 @@
+signup
+http://localhost:3000/auth/signup - method post
+{
+  "fullName":"vasanth kumar",
+  "userName":"vasanth",
+  "email":"mrvasanth93@gmail.com",
+  "password":"12345",
+  "mobileNumber":9345
+}
+
+login
+http://localhost:3000/auth/login - method post
+{
+  "credintials":"vasanth",
+  "password":"12345"
+}
+
+getprofile
+http://localhost:3000/auth/profile - method get
+
+update-profile
+http://localhost:3000/auth/update-profile - method put
+{
+  "userName":"vasanth"
+}
+
+update email
+http://localhost:3000/auth/update-email - method put
+{
+  "email":"mrvasanth93@gmail.com"
+}
+
+update password
+http://localhost:3000/auth/update-password - method put
+{
+  "oldPassword":"12345",
+  "newPassword":"9345",
+  "confirmPassword":"9345"
+}
+
+logout
+http://localhost:3000/auth/logout -method delete
+
+post product 
+http://localhost:3000/product/post-product - methodd post
+{
+  "productName":"OPPO A54",
+  "productDescription" :"OPPO A54 is launched in 2020",
+  "productPrice":18000,
+  "category":"mobiles",
+  "colour":"skyblue",
+  "ram":"16 gb",
+  "storage":"213 gb"
+}
+
+get all products
+http://localhost:3000/product/get-products - method get
+
+get single product 
+http://localhost:3000/product/get-product/68f71104b2a343a4431d716e - method get
+
+update product
+http://localhost:3000/product/update-product/68f7199b09ab815ae73311a8 - method put
+
+delete product
+http://localhost:3000/product/delete-product/68f71e550d1579f2fdb1b6a1 - method delete

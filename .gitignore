@@ -1,0 +1,14 @@
+# Dependencies
+/node_modules
+
+# Environment Variables
+.env
+
+# Logs and temporary files
+npm-debug.log*
+yarn-error.log*
+pids
+*.pid
+*.seed
+*.log
+/dist
