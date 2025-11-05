@@ -6,7 +6,7 @@ require("dotenv").config()
 
 const path = require("path")
 
-const authRoute = require("./routes/authRoutes");
+const authRoute = require("./Routes/authRoutes");
 
 const connectDb = require("./Config/Db");
 
