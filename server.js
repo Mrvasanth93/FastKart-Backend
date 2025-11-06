@@ -20,6 +20,8 @@ const app = express()
 
 app.use(express.json())
 
+const origin = 'https://fastkart-coral.vercel.app'
+
 app.use(cors({origin:'https://fastkart-coral.vercel.app',credentials:true}))
 
 connectDb();

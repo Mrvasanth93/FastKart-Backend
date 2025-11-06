@@ -1,0 +1,5 @@
+server file ah cors la origin mathanum 
+utils la base maathanum
+db la url maathanum
+package.json la start ah maathanum 
+image change aagura edam maathanum
