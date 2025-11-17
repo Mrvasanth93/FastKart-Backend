@@ -68,14 +68,16 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
     const handleLogin = async (passwordFromClient, user) => {
+        //httpOnly: true, secure: true, sameSite: 'Lax',
         const isVaild = await decryptPassword(passwordFromClient, user.password)
         if (isVaild) {
             const token = genrateToken(user._id.toString());
-            res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 7 * 24 * 60 * 60 * 1000, })
+            res.cookie("token", token, {  maxAge: 7 * 24 * 60 * 60 * 1000, })
             return res.json({
                 success: true,
                 message: "login successfull",
-                user
+                user,
+                token
             })
         }
         return res.json({

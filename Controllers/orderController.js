@@ -2,6 +2,8 @@ const orderModel = require("../Models/OrderModel")
 
 const productModel = require("../Models/ProductModel")
 
+const userModel = require("../Models/userModel")
+
 const createOrder = async (req, res) => {
     try {
         const { orderItems, fullName, addres, city, district, pinCode, phone } = req.body
@@ -37,7 +39,7 @@ const createOrder = async (req, res) => {
         const order = await orderModel.create({ orderItems, shippingAddres: { fullName, addres, city, district, pinCode, phone, alternateNumber: req.user.mobileNumber, email: req.user.email }, user, itemsPrice, totalPrice })
         if (order) {
             return res.json({
-                success: false,
+                success: true,
                 order
             })
         }
@@ -251,4 +253,32 @@ const deleteOrder = async (req, res) => {
     }
 }
 
-module.exports = { createOrder, getAllOrders, getMyOrders, cancelOrder, updateOrder,deleteOrder };
+const addToCart = async (req,res) =>{
+    const id = req.params.id
+    if(!id){
+        return res.json({
+            success:false,
+            message:"is is required"
+        })
+    }
+    const finded_user = await userModel.findOne({_id:req.user._id})
+    if(finded_user){
+        var isExit = false
+        finded_user.cart.map((data)=>{
+            console.log(data);
+            
+        })
+        if(finded_user.cart){
+            return res.json({
+            success:true,
+            finded_user 
+        })
+        }
+    }
+    return res.json({
+        success:false,
+        message:"cannot find user"
+    })
+}
+
+module.exports = { createOrder, getAllOrders, getMyOrders, cancelOrder, updateOrder,deleteOrder,addToCart };

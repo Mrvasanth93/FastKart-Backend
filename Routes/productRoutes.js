@@ -18,4 +18,5 @@ productRoute.route("/update-product/:id").put(isAuthenticated, isAdminOrSeller, 
 
 productRoute.route("/delete-product/:id").delete(isAuthenticated, isAdminOrSeller, deleteSingleProduct)
 
+
 module.exports = productRoute;

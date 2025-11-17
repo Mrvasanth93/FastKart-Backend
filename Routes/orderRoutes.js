@@ -1,6 +1,6 @@
 const express = require("express");
 
-const {createOrder, getAllOrders, getMyOrders, cancelOrder, updateOrder, deleteOrder} = require("../Controllers/orderController");
+const {createOrder, getAllOrders, getMyOrders, cancelOrder, updateOrder, deleteOrder, addToCart} = require("../Controllers/orderController");
 
 const { isAuthenticated, isAdminOrSeller, isAdmin } = require("../Middlewares/authMiddleware");
 
@@ -17,5 +17,7 @@ orderRoute.route("/cancel-order/:id").put(isAuthenticated,cancelOrder)
 orderRoute.route("/update-order/:id").put(isAuthenticated,isAdmin,updateOrder)
 
 orderRoute.route("/delete-order/:id").put(isAuthenticated,isAdmin,deleteOrder)
+
+orderRoute.route("/add-to-cart/:id").post(isAuthenticated,addToCart)
 
 module.exports = orderRoute;
