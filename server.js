@@ -20,7 +20,7 @@ const app = express()
 
 app.use(express.json())
 
-app.use(cors({credentials:true,origin:"https://fastkart-three.vercel.app"}))
+app.use(cors({credentials:true,origin:"https://fastkart-theta.vercel.app"}))
 
 connectDb();
 
