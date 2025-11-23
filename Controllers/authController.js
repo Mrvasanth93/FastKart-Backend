@@ -72,7 +72,11 @@ const login = async (req, res) => {
         const isVaild = await decryptPassword(passwordFromClient, user.password)
         if (isVaild) {
             const token = genrateToken(user._id.toString());
-            res.cookie("token", token, {  maxAge: 7 * 24 * 60 * 60 * 1000, })
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+                maxAge: 7 * 24 * 60 * 60 * 1000,});
             return res.json({
                 success: true,
                 message: "login successfull",
