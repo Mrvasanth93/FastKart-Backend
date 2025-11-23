@@ -262,6 +262,34 @@ const addReview = async (req, res) => {
     }
 }
 
+const serch_products = async(req,res)=>{
+    const serchquery = req.params.serch
+    const serched_products = await productModel.find({
+        $or:[
+            {productName:{$regex:serchquery,$options:"i"}},
+            {category:{$regex:serchquery,$options:"i"}},
+            {productDescription:{$regex:serchquery,$options:"i"}}
+        ]
+    })
+    if(serch_products){
+        if(serch_products.length == 0){
+            return res.json({
+            success:true,
+            no_of_products:serched_products.length,
+            message:"no more products"
+        })
+        }
+        return res.json({
+            success:true,
+            no_of_products:serched_products.length,
+            products:serched_products
+        })
+    }
+    return res.json({
+        success:false,
+        message:"cannot find products"
+    })
+}
 
 
-module.exports = { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteSingleProduct, productCreateResponse }
+module.exports = { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteSingleProduct, productCreateResponse,serch_products }
